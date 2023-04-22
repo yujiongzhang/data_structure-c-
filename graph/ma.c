@@ -85,7 +85,38 @@ int nextxy(int *x, int *y,int count)
 
 }
 
+//深度优先遍历棋盘
 int TravelChessBoard(int x,int y,int tag)
 {
+    int x1 = x, y1 = y, flag = 0, count = 0;
+    chess[x][y] = tag;
+
+    if ( X*Y == tag)
+    {
+        // 打印棋盘
+        return 1;
+    }
+
+    // 找到马的下一个可走的坐标（x1,y1）, 如果找到flag = 1；否则为 0
+
+    while (flag)
+    {
+        if (TravelChessBoard(x1,y1,tag+1))
+        {
+            return 1;
+        }
+        
+        // 继续找到马的下一步可走的坐标（x1,y1）, 如果找到flag = 1；否则为 0
+    }
+    
+    if ( 0 == flag)
+    {
+        chess[x][y] = 0;
+    }
+    
+
+    return 0;
+
+
 
 }
