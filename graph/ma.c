@@ -29,7 +29,7 @@ int nextxy(int *x, int *y,int count)
         break;
 
     case 2:
-        if (*x-1>=0 && *y+2<=Y-1 && chess[*x+1][*y-2] == 0)
+        if (*x+1<=X-1 && *y-2>=0 && chess[*x+1][*y-2] == 0)
         {
             *x +=1;
             *y -=2;
@@ -85,6 +85,20 @@ int nextxy(int *x, int *y,int count)
 
 }
 
+void printchess()
+{
+    int i,j;
+    for ( i = 0; i < X; i++)
+    {
+        for (j = 0; j < Y; j++)
+        {
+            printf("%d\t",chess[i][j]);
+        }
+        printf("\n"); 
+    }
+     printf("\n");
+}
+
 //深度优先遍历棋盘
 int TravelChessBoard(int x,int y,int tag)
 {
@@ -94,10 +108,18 @@ int TravelChessBoard(int x,int y,int tag)
     if ( X*Y == tag)
     {
         // 打印棋盘
+        printchess();
         return 1;
     }
 
     // 找到马的下一个可走的坐标（x1,y1）, 如果找到flag = 1；否则为 0
+    flag = nextxy(&x1,&y1,count);
+    while ( 0 == flag && count<7)
+    {
+        count++;
+        flag = nextxy(&x1,&y1,count);
+    }
+    
 
     while (flag)
     {
@@ -107,6 +129,17 @@ int TravelChessBoard(int x,int y,int tag)
         }
         
         // 继续找到马的下一步可走的坐标（x1,y1）, 如果找到flag = 1；否则为 0
+        x1 = x;
+        y1 = y;
+        count++;
+        flag = nextxy(&x1,&y1,count);
+        while (0 == flag && count < 7)
+        {
+            count++;
+            flag = nextxy(&x1,&y1,count);
+        }
+        
+
     }
     
     if ( 0 == flag)
@@ -117,6 +150,36 @@ int TravelChessBoard(int x,int y,int tag)
 
     return 0;
 
+}
 
 
+
+int main()
+{
+    int i,j;
+    clock_t start,finish;
+
+    start = clock();
+
+    for ( i = 0; i < X; i++)
+    {
+        for (j = 0; j < Y; j++)
+        {
+            chess[i][j] = 0;
+        }
+    }
+    
+
+    if ( !TravelChessBoard(2,0,1))
+    {
+        printf("sorry! error!\n");
+    }
+
+    finish = clock();
+
+    printf("\ntime is %f second\n\n",(double)(finish - start));
+
+
+
+    return 0;
 }
