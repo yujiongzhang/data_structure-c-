@@ -28,7 +28,8 @@ int LocateVex(MGraph G,VertexType v){
     return -1;
 }
 //构造无向网
-void CreateUDN(MGraph* G){
+void CreateUDN(MGraph* G)
+{
     scanf("%d,%d",&(G->vexnum),&(G->arcnum));
     for (int i=0; i<G->vexnum; i++) {
         scanf("%d",&(G->vexs[i]));
@@ -54,16 +55,19 @@ void CreateUDN(MGraph* G){
 }
 
 //辅助数组，用于每次筛选出权值最小的边的邻接点
-typedef struct {
+typedef struct 
+{
     VertexType adjvex;//记录权值最小的边的起始点
     VRType lowcost;//记录该边的权值
 }closedge[MAX_VERtEX_NUM];
 closedge theclose;//创建一个全局数组，因为每个函数中都会使用到
 //在辅助数组中找出权值最小的边的数组下标，就可以间接找到此边的终点顶点。
-int minimun(MGraph G,closedge close){
+int minimun(MGraph G,closedge close)
+{
     int min=INFINITY;
     int min_i=-1;
-    for (int i=0; i<G.vexnum; i++) {
+    for (int i=0; i<G.vexnum; i++) 
+    {
         //权值为0，说明顶点已经归入最小生成树中；然后每次和min变量进行比较，最后找出最小的。
         if (close[i].lowcost>0 && close[i].lowcost < min) {
             min=close[i].lowcost;
@@ -74,7 +78,8 @@ int minimun(MGraph G,closedge close){
     return min_i;
 }
 //普里姆算法函数，G为无向网，u为在网中选择的任意顶点作为起始点
-void miniSpanTreePrim(MGraph G,VertexType u){
+void miniSpanTreePrim(MGraph G,VertexType u)
+{
     //找到该起始点在顶点数组中的位置下标
     int k=LocateVex(G, u);
     //首先将与该起始点相关的所有边的信息：边的起始点和权值，存入辅助数组中相应的位置，例如（1，2）边，adjvex为0，lowcost为6，存入theclose[1]中，辅助数组的下标表示该边的顶点2
@@ -105,7 +110,9 @@ void miniSpanTreePrim(MGraph G,VertexType u){
     printf("\n");
 }
 
-int main(){
+
+int main()
+{
     MGraph G;
     CreateUDN(&G);
     miniSpanTreePrim(G, 1);
